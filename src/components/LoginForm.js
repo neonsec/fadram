@@ -102,7 +102,7 @@ rendercreateButton(){
 }
 //---------------------------------------------
   render(){
-    console.log(this.props.email+"--"+this.props.pwd+"--"+this.props.verifypwd);
+    // console.log(this.props.email+"--"+this.props.pwd+"--"+this.props.verifypwd);
     return(
       <View>
         <StatusBar

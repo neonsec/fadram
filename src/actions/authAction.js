@@ -6,7 +6,19 @@ import firebase from 'firebase';
      dispatch({type:'app_loading', payload:true});
      firebase.auth().onAuthStateChanged((user) => {
          if (user) {
-           dispatch({type: 'login_change',payload:true});
+           const currentuser = firebase.auth().currentUser;
+          //  console.log('emailverified :'+currentuser.emailVerified);
+          //  if(!currentuser.emailVerified){
+          //    currentuser.sendEmailVerification();
+          //    dispatch({type: 'email_notverified', error:'A mail has been sent to your email just verify it and then login' });
+          //  }
+          //  else
+           if(currentuser.emailVerified){
+             dispatch({type: 'login_change',payload:true});
+           }else {
+             dispatch({type: 'login_change',payload:false});
+           }
+
          } else {
            dispatch({type: 'login_change',payload:false});
          }
@@ -67,9 +79,15 @@ export const signupuser = () => {
 
 
  const loginSuccess= (dispatch,user) => {
+   const currentuser = firebase.auth().currentUser;
+  //  console.log('emailverified :'+currentuser.emailVerified);
+   if(!currentuser.emailVerified){
+     dispatch({type: 'email_notverified', error:'A mail has been sent to your email just verify it and then login' });
+   }else{
    dispatch({
      type: 'loginSuccess'
    });
+ }
  }
 
  const loginfail= (dispatch) => {
@@ -79,11 +97,22 @@ export const signupuser = () => {
  }
 
  const signupSuccess= (dispatch,user) => {
+   const currentuser = firebase.auth().currentUser;
+  //  console.log('emailverified :'+currentuser.emailVerified);
+   if(!currentuser.emailVerified){
+     currentuser.sendEmailVerification();
+     dispatch({type: 'email_notverified', error:'A mail has been sent to your email just verify it and then login' });
+   }
+  //  else
+  //  if(currentuser.emailVerified){
+  //    dispatch({type: 'login_change',payload:true});
+  //  }
+  else{
    dispatch({
      type: 'creatuserSuccess'
    });
  }
-
+}
  const signupfail= (dispatch) => {
    dispatch({
      type: 'createuserfail'

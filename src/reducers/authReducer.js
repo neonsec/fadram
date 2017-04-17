@@ -17,7 +17,9 @@ export default (state=InitialState,action) => {
   // console.log(action);
   switch (action.type) {
     case 'app_loading':
-    return{...state, apploading:action.payload}
+    return{...state, apploading:action.payload};
+    case 'email_notverified':
+    return{...state,error:action.error, apploading:false,loading: false};
     case 'login_change':
     return{...state, loggedin:action.payload, apploading:false};
     case 'email_changed':
